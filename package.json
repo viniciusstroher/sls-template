@@ -1,0 +1,23 @@
+{
+  "name": "sls-template",
+  "version": "1.0.0",
+  "description": "serverless create --template saipos-nodejs-ts --path .",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build-layer": "node build/build-layer.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "moment": "^2.29.1",
+    "aws-sdk": "^2.437.0"
+  },
+  "devDependencies": {
+    "package-lock.json": "^1.0.0",
+    "serverless-offline": "^7.0.0",
+    "ts-jest": "^26.4.3",
+    "ts-node": "^9.0.0",
+    "typescript": "^4.0.5"
+  }
+}

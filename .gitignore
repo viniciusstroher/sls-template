@@ -1,0 +1,5 @@
+/node_modules/
+/dependencies-layer/nodejs/
+*.zip
+/dist/
+/.serverless/

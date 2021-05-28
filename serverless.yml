@@ -1,0 +1,33 @@
+service: ${opt:stage, self:provider.stage, "dev"}-saipos-tmpl-ts
+
+provider:
+    name: aws
+    # role: arn:aws:iam::091827477872:role/service-role/SQSLambda
+    runtime: nodejs12.x
+    region: us-west-2
+
+layers:
+  dependenciesNodeModules:
+    path: dependencies-layer
+    name: ${opt:stage, self:provider.stage, "dev"}-layer-dependencies
+    description: Node modules layer # optional, Description to publish to AWS
+    compatibleRuntimes: # optional, a list of runtimes this layer is compatible with
+      - nodejs12.x
+    licenseInfo: GPLv3
+    retain: false
+
+functions:
+    lambdaA:
+    # name: ${opt:stage, self:provider.stage, "dev"}-layer-dependencies
+      handler: dist/handlers/a.handler
+      method: get
+      events:
+          - http:
+              path: /
+              method: any
+              cors: true
+      layers:
+        - { Ref: DependenciesNodeModulesLambdaLayer }
+
+plugins:
+    - serverless-offline
