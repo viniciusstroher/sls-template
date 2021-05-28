@@ -10,19 +10,22 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SQSAws = void 0;
+const AWS = require('aws-sdk');
 const SQSAws = () => __awaiter(void 0, void 0, void 0, function* () {
     return new Promise(function (resolve, reject) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const AWS = require('aws-sdk');
+                // console.log(process.env);
                 AWS.config = {
                     //colocar em variaveis de ambiente
                     credentials: {
-                        accessKeyId: 'AKIA4QMTIFCPEEXEEOUQ',
-                        secretAccessKey: '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',
+                        accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+                        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+                        sessionToken: process.env.AWS_SESSION_TOKEN
                     },
-                    region: 'sa-east-1'
+                    region: process.env.AWS_DEFAULT_REGION
                 };
+                console.log(AWS.config);
                 return resolve(new AWS.SQS());
             }
             catch (err) {

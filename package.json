@@ -8,20 +8,20 @@
     "build-dependencies-layer": "node build/build-dependencies-layer.js",
     "build-utils-layer": "npm run build-tsc && node build/build-utils-layer.js",
     "build-tsc": "node node_modules/typescript/bin/tsc",
-    "deploy-dev": "npm run build-tsc && sls deploy -s dev --aws-profile teste"
+    "deploy-dev": "npm run build-tsc && npm run build-utils-layer && sls deploy -s dev --aws-profile teste"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "aws-lambda": "^1.0.6",
     "aws-sdk": "^2.437.0",
-    "fs-extra": "^10.0.0",
     "request-promise": "^4.2.6",
     "source-map-support": "^0.5.19"
   },
   "devDependencies": {
     "package-lock.json": "^1.0.0",
     "serverless-offline": "^7.0.0",
+    "fs-extra": "^10.0.0",
     "ts-jest": "^26.4.3",
     "ts-node": "^9.0.0",
     "typescript": "^4.0.5"

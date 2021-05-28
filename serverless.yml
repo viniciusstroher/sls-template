@@ -6,8 +6,14 @@ provider:
     runtime: nodejs12.x
     region: us-west-2
     environment:
-      A_QUEUE: { Ref: AQueue } #referencia url queue
-
+      A_QUEUE: { Ref: AQueue }
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - sqs:*
+        Resource: 
+          Fn::GetAtt: [ AQueue, Arn ]
+                    
 layers:
   dependenciesNodeModules:
     path: dependencies-layer
@@ -35,21 +41,30 @@ functions:
               path: /
               method: get
               cors: true
+              
       layers:
         - { Ref: DependenciesNodeModulesLambdaLayer }
         - { Ref: SqsLambdaLayer }
     
-    # lambdaB:
-    #   handler: dist/handlers/b.handler
-    #   layers:
-    #     - { Ref: DependenciesNodeModulesLambdaLayer }
+    lambdaB:
+      handler: dist/handlers/b.handler
+      events:
+        - sqs: 
+            arn: #permissao para acessar a SQS
+              Fn::GetAtt:
+                - AQueue
+                - Arn
+      layers:
+        - { Ref: DependenciesNodeModulesLambdaLayer }
 
 resources:
   Resources:
     AQueue:
       Type: "AWS::SQS::Queue"
       Properties:
-        QueueName: "AQueue"
+        QueueName: ${opt:stage, self:provider.stage, "dev"}-aqueue.fifo
+        FifoQueue: true
+        ContentBasedDeduplication: true
 
 plugins:
     - serverless-offline

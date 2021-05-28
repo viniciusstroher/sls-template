@@ -19,6 +19,7 @@ export const handler = async (
 
     const sqs:any = await SQSAws()
     const queueParams = {
+        MessageGroupId: 'store-1',
         MessageBody: JSON.stringify({teste:true}),
         QueueUrl: process.env.A_QUEUE,
         MessageAttributes: {
@@ -30,10 +31,10 @@ export const handler = async (
     }
 
     const message = await sqs.sendMessage(queueParams).promise()
-
+    // const message = 'oi'
     const response = {
         statusCode: 200,
-        body: JSON.stringify({message, queue: process.env.A_QUEUE})
+        body: JSON.stringify({message, queue: process.env.A_QUEUE, region: process.env.AWS_REGION_ENV})
     };
 
     console.info(`response from: ${event.path} statusCode: ${response.statusCode} body: ${response.body}`);

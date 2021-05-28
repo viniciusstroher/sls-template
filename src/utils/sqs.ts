@@ -1,18 +1,21 @@
+const AWS = require('aws-sdk')
 
 export const SQSAws = async () => {
     return new Promise(async function(resolve, reject) {
         try {
-            const AWS = require('aws-sdk')
-
+            // console.log(process.env);
             AWS.config = {
                 //colocar em variaveis de ambiente
                 credentials: {
-                    accessKeyId: 'AKIA4QMTIFCPEEXEEOUQ',
-                    secretAccessKey: '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',
+                    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+                    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+                    sessionToken: process.env.AWS_SESSION_TOKEN
                 },
-                region:'sa-east-1'
+                region: process.env.AWS_DEFAULT_REGION
             }
 
+            console.log(AWS.config)
+            
             return resolve(new AWS.SQS())
         } catch(err) {
             return reject(`Erro ao inicializar SQS - ${err}`)
