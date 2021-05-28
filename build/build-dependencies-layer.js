@@ -16,9 +16,10 @@ fs.mkdir('dependencies-layer', function(dataMkdir1) {
 					fs.copyFile('package-lock.json', 'dependencies-layer/nodejs/package-lock.json', function(dataPackagesLock) {
 						console.log('copied config files.')
 						//deleta node_modules
+						process.chdir('dependencies-layer/nodejs');
 						child = exec('rimraf node_modules', function (error, stdout, stderr) {
 							console.log('node_modules deleted.')
-							process.chdir('dependencies-layer/nodejs');
+							
 							//instala node_modules
 							child = exec('npm i --production', function (error, stdout, stderr) {
 								//deleta packge.json

@@ -23,6 +23,9 @@
         "experimentalDecorators": true,
         "outDir": "./dist"
     },
-    "exclude": ["node_modules", "build", "webpack"],
+    "include": [
+        "**/*.ts"
+    ],
+    "exclude": ["node_modules", "build", "webpack", "dist"],
     "types": ["typePatches"]
 }
