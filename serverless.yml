@@ -1,5 +1,14 @@
 service: ${opt:stage, self:provider.stage, "dev"}-saipos-tmpl-ts
 
+package:
+  individually: true
+  exclude:
+    - 'src/**'
+    - 'build/**'
+    - 'tsconfig.json'
+    - 'node_modules/**'
+    - 'readme.md'
+
 provider:
     name: aws
     # role: arn:aws:iam::091827477872:role/service-role/SQSLambda
@@ -65,6 +74,9 @@ resources:
         QueueName: ${opt:stage, self:provider.stage, "dev"}-aqueue.fifo
         FifoQueue: true
         ContentBasedDeduplication: true
+custom:
+  serverless-offline:
+    useDocker: true
 
 plugins:
     - serverless-offline

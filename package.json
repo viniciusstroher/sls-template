@@ -8,7 +8,8 @@
     "build-dependencies-layer": "node build/build-dependencies-layer.js",
     "build-utils-layer": "npm run build-tsc && node build/build-utils-layer.js",
     "build-tsc": "node node_modules/typescript/bin/tsc",
-    "deploy-dev": "npm run build-tsc && npm run build-utils-layer && sls deploy -s dev --aws-profile teste"
+    "deploy-dev": "npm run build-tsc && npm run build-utils-layer && sls deploy -s dev --aws-profile teste",
+    "offline-win": "setx AWS_PROFILE teste && sls offline"
   },
   "author": "",
   "license": "ISC",
