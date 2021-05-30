@@ -9,7 +9,8 @@
     "build-utils-layer": "npm run build-tsc && node build/build-utils-layer.js",
     "build-tsc": "node node_modules/typescript/bin/tsc",
     "deploy-dev": "npm run build-tsc && npm run build-utils-layer && sls deploy -s dev --aws-profile teste",
-    "offline-win": "setx AWS_PROFILE teste && sls offline"
+    "deploy-offline": "npm run build-tsc && npm run build-utils-layer && set SLS_DEBUG=* && set AWS_PROFILE=teste && serverless offline start --useDocker -r us-west-2 --stage dev",
+    "docker-local-sqs": "docker-compose up"
   },
   "author": "",
   "license": "ISC",
@@ -17,6 +18,7 @@
     "aws-lambda": "^1.0.6",
     "aws-sdk": "^2.437.0",
     "request-promise": "^4.2.6",
+    "serverless-offline-sqs": "^4.1.1",
     "source-map-support": "^0.5.19"
   },
   "devDependencies": {

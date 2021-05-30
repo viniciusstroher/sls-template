@@ -9,22 +9,31 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SQSAws = void 0;
+exports.SQSAws = exports.AwsConfig = exports.AWSCredentials = void 0;
 const AWS = require('aws-sdk');
+const AWSCredentials = () => {
+    if (process.env.IS_OFFLINE) {
+        process.env.AWS_ACCESS_KEY_ID = 'root';
+        process.env.AWS_SECRET_ACCESS_KEY = 'root';
+    }
+    AWS.config = {
+        //colocar em variaveis de ambiente
+        credentials: {
+            accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+            secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+            sessionToken: process.env.AWS_SESSION_TOKEN
+        },
+        region: process.env.AWS_DEFAULT_REGION
+    };
+};
+exports.AWSCredentials = AWSCredentials;
+const AwsConfig = () => AWS.config;
+exports.AwsConfig = AwsConfig;
 const SQSAws = () => __awaiter(void 0, void 0, void 0, function* () {
     return new Promise(function (resolve, reject) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                // console.log(process.env);
-                AWS.config = {
-                    //colocar em variaveis de ambiente
-                    credentials: {
-                        accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-                        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-                        sessionToken: process.env.AWS_SESSION_TOKEN
-                    },
-                    region: process.env.AWS_DEFAULT_REGION
-                };
+                exports.AWSCredentials();
                 console.log(AWS.config);
                 return resolve(new AWS.SQS());
             }

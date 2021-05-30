@@ -30,3 +30,16 @@
 
 ---
 
+## Offline container
+### 
+```bash 
+    # stack
+    docker-compose up -d
+    #sqs
+    docker run -dit -p 9324:9324 -p 9325:9325 softwaremill/elasticmq-native
+
+    #api gateway
+    docker build -t sls/offline .
+    docker run -dit -v %cd%:/app -p 3000:3000 --name offline sls/offline
+```
+

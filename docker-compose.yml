@@ -1,0 +1,24 @@
+version: '3'
+services:
+  sqs:
+      container_name: sqs
+      image: softwaremill/elasticmq-native
+      ports:
+        - "9324:9324"
+        - "9325:9325"
+
+  sls:
+      container_name: sls
+      build: .
+      volumes:
+        - .:/app
+      ports:
+        - "3000:3000"
+        - "3001:3001"
+        - "3002:3002"
+        - "3003:3003"
+      depends_on:
+        - sqs
+      environment:
+        - SLS_DEBUG=*
+      command: bash -c "tail -f /dev/null"

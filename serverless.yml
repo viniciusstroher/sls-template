@@ -22,7 +22,7 @@ provider:
           - sqs:*
         Resource: 
           Fn::GetAtt: [ AQueue, Arn ]
-                    
+
 layers:
   dependenciesNodeModules:
     path: dependencies-layer
@@ -43,28 +43,48 @@ layers:
     retain: false
 
 functions:
-    lambdaA:
-      handler: dist/handlers/a.handler
-      events:
-          - http:
-              path: /
-              method: get
-              cors: true
+    # lambdaA:
+    #   handler: dist/handlers/a.handler
+    #   events:
+    #       - http:
+    #           path: /
+    #           method: get
+    #           cors: true
               
+    #   layers:
+    #     #offline aceita paenas arn
+    #     - arn:aws:lambda:us-west-2:859839146142:layer:dev-layer-dependencies:7
+    #     - arn:aws:lambda:us-west-2:859839146142:layer:dev-layer-utils:13
+    #     - { Ref: DependenciesNodeModulesLambdaLayer }
+    #     - { Ref: SqsLambdaLayer }
+    
+    # lambdaB:
+    #   handler: dist/handlers/b.handler
+    #   events:
+    #     - sqs: 
+    #         arn: #permissao para acessar a SQS
+    #           Fn::GetAtt:
+    #             - AQueue
+    #             - Arn
+    #   layers:
+    #     - { Ref: DependenciesNodeModulesLambdaLayer }
+    
+    lambdaC:
+      handler: dist/handlers/c.handler
+      events:
+        - http:
+            path: /
+            method: get
+            cors: true
+        # por algum motivo nao acha o sqs e da pau rever a url do server-offline-sqs! refused
+        # - sqs: 
+        #     arn: #permissao para acessar a SQS
+        #       Fn::GetAtt:
+        #         - AQueue
+        #         - Arn
       layers:
         - { Ref: DependenciesNodeModulesLambdaLayer }
         - { Ref: SqsLambdaLayer }
-    
-    lambdaB:
-      handler: dist/handlers/b.handler
-      events:
-        - sqs: 
-            arn: #permissao para acessar a SQS
-              Fn::GetAtt:
-                - AQueue
-                - Arn
-      layers:
-        - { Ref: DependenciesNodeModulesLambdaLayer }
 
 resources:
   Resources:
@@ -75,8 +95,20 @@ resources:
         FifoQueue: true
         ContentBasedDeduplication: true
 custom:
+  serverless-offline-sqs:
+      autoCreate: true                 
+      apiVersion: '2012-11-05'
+      endpoint: http://sqs:9324
+      region: us-west-2
+      accessKeyId: root
+      secretAccessKey: root
+      skipCacheInvalidation: false
   serverless-offline:
-    useDocker: true
+    host: 0.0.0.0
+    noAuth: true
+    noPrependStageInUrl: true
+  
 
 plugins:
+    - serverless-offline-sqs
     - serverless-offline
