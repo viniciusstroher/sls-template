@@ -15,6 +15,7 @@ provider:
     runtime: nodejs12.x
     region: us-west-2
     environment:
+      A_QUEUE_OFFLINE: http://sqs:9324/queue/${self:custom.aQueueName}
       A_QUEUE: { Ref: AQueue }
     iamRoleStatements:
       - Effect: Allow
@@ -76,12 +77,7 @@ functions:
             path: /
             method: get
             cors: true
-        # por algum motivo nao acha o sqs e da pau rever a url do server-offline-sqs! refused
-        # - sqs: 
-        #     arn: #permissao para acessar a SQS
-        #       Fn::GetAtt:
-        #         - AQueue
-        #         - Arn
+
       layers:
         - { Ref: DependenciesNodeModulesLambdaLayer }
         - { Ref: SqsLambdaLayer }
@@ -91,23 +87,24 @@ resources:
     AQueue:
       Type: "AWS::SQS::Queue"
       Properties:
-        QueueName: ${opt:stage, self:provider.stage, "dev"}-aqueue.fifo
+        QueueName: ${self:custom.aQueueName}
         FifoQueue: true
         ContentBasedDeduplication: true
+
 custom:
+  aQueueName: ${opt:stage, self:provider.stage, "dev"}-aqueue.fifo
   serverless-offline-sqs:
-      autoCreate: true                 
-      apiVersion: '2012-11-05'
-      endpoint: http://sqs:9324
-      region: us-west-2
-      accessKeyId: root
-      secretAccessKey: root
-      skipCacheInvalidation: false
+    autoCreate: true                 
+    apiVersion: '2012-11-05'
+    endpoint: http://sqs:9324
+    region: us-west-2
+    accessKeyId: root
+    secretAccessKey: root
+    skipCacheInvalidation: false
   serverless-offline:
     host: 0.0.0.0
     noAuth: true
     noPrependStageInUrl: true
-  
 
 plugins:
     - serverless-offline-sqs
