@@ -19,7 +19,7 @@ export const handler = async (
     const queueParams = {
         MessageGroupId: 'store-1',
         MessageBody: JSON.stringify({teste:true}),
-        QueueUrl: 'http://sqs:9324/queue/dev-aqueue.fifo',
+        QueueUrl: process.env.IS_OFFLINE ? process.env.A_QUEUE_OFFLINE : process.env.A_QUEUE,
         MessageAttributes: {
             'id_store': {
                 DataType: 'Number',

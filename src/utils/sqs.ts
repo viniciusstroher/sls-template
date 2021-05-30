@@ -6,7 +6,7 @@ export const AWSCredentials = () => {
         process.env.AWS_SECRET_ACCESS_KEY = 'root'
     }
     
-    AWS.config = {
+    const creadentials = {
         //colocar em variaveis de ambiente
         credentials: {
             accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -15,7 +15,12 @@ export const AWSCredentials = () => {
         },
         region: process.env.AWS_DEFAULT_REGION
     }
-    
+
+    // AWS.config = {}
+
+    const config = new AWS.Config();
+    config.update(creadentials);
+
 }
 
 export const AwsConfig = () => AWS.config
