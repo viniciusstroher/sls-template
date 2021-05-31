@@ -61,7 +61,7 @@ functions:
       package:
         include:
           - dist/handlers/a.handler.js
-          
+    
     lambdaB:
       handler: dist/handlers/b.handler
       events:
