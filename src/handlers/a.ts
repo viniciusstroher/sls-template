@@ -5,7 +5,7 @@ import {
 } from "aws-lambda";
 
 import {
-    SQSAws
+    SQSAws, uuidv4
 } from '../utils/sqs';
 
 export const handler = async (
@@ -17,17 +17,14 @@ export const handler = async (
     
     console.info('received:', event);
 
+    const queue = process.env.IS_OFFLINE ? process.env.A_QUEUE_OFFLINE : process.env.A_QUEUE
     const sqs:any = await SQSAws()
+    const uuid = uuidv4()
     const queueParams = {
         MessageGroupId: 'store-1',
-        MessageBody: JSON.stringify({teste:true}),
-        QueueUrl: process.env.A_QUEUE,
-        MessageAttributes: {
-            'id_store': {
-                DataType: 'Number',
-                StringValue: '18'
-            }
-        }
+        MessageBody: JSON.stringify({uuid, teste:true}),
+        QueueUrl: queue,
+        MessageAttributes: {}
     }
 
     const message = await sqs.sendMessage(queueParams).promise()
