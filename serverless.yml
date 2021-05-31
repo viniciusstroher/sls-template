@@ -58,9 +58,10 @@ functions:
       layers:
         - { Ref: DependenciesNodeModulesLambdaLayer }
         - { Ref: SqsLambdaLayer }
-      packge:
+      package:
         include:
           - dist/handlers/a.handler.js
+          
     lambdaB:
       handler: dist/handlers/b.handler
       events:
@@ -74,7 +75,7 @@ functions:
             batchSize: 10
       layers:
         - { Ref: DependenciesNodeModulesLambdaLayer }
-      packge:
+      package:
         include:
           - dist/handlers/b.handler.js
     lambdaC:
@@ -88,7 +89,7 @@ functions:
       layers:
         - { Ref: DependenciesNodeModulesLambdaLayer }
         - { Ref: SqsLambdaLayer }
-      packge:
+      package:
         include:
           - dist/handlers/c.handler.js
     #websocket
@@ -97,7 +98,7 @@ functions:
         - websocket:
             route: $connect
       handler: dist/handlers/d.handler
-      packge:
+      package:
         include:
           - dist/handlers/d.handler.js
 
@@ -106,7 +107,7 @@ functions:
         - websocket:
             route: $disconnect
       handler: dist/handlers/d.handler
-      packge:
+      package:
         include:
           - dist/handlers/d.handler.js
 
@@ -119,18 +120,18 @@ functions:
       layers:
         - { Ref: DependenciesNodeModulesLambdaLayer }
         - { Ref: SqsLambdaLayer }
-      packge:
+      package:
         include:
           - dist/handlers/d.handler.js
     
-    #schedule
-    schedule1:
-      events:
-        - schedule: rate(1 minute)
-      handler: dist/handlers/e.handler
-      packge:
-        include:
-          - dist/handlers/e.handler.js
+    #schedule - comentado porque eu n sei quando vai da no meu cartao de credito hahahahah, assinado: vini
+    # schedule1:
+    #   events:
+    #     - schedule: rate(1 minute)
+    #   handler: dist/handlers/e.handler
+    #   package:
+    #     include:
+    #       - dist/handlers/e.handler.js
 
 resources:
   Resources:

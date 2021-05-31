@@ -8,9 +8,9 @@
     "build-dependencies-layer": "node build/build-dependencies-layer.js",
     "build-utils-layer": "npm run build-tsc && node build/build-utils-layer.js",
     "build-tsc": "node node_modules/typescript/bin/tsc",
-    "deploy-dev": "npm run build-tsc && npm run build-utils-layer && sls deploy -s dev --aws-profile teste",
-    "deploy-offline": "npm run build-tsc && npm run build-utils-layer && set SLS_DEBUG=* && set AWS_PROFILE=teste && serverless offline start --useDocker -r us-west-2 --stage dev",
-    "docker-local-sqs": "docker-compose up"
+    "deploy-dev": "npm run build-tsc && npm run build-dependencies-layer && npm run build-utils-layer && sls deploy -s dev --aws-profile teste",
+    "offline": "npm run build-dependencies-layer && docker-compose up -d && node build/watch.js",
+    "docker-local-sqs": "docker-compose up -d"
   },
   "author": "",
   "license": "ISC",
@@ -18,16 +18,13 @@
     "aws-lambda": "^1.0.6",
     "aws-sdk": "^2.437.0",
     "request-promise": "^4.2.6",
-    "serverless-offline-sqs-vini": "^5.1.2",
     "source-map-support": "^0.5.19"
   },
   "devDependencies": {
+    "chokidar": "^3.5.1",
     "package-lock.json": "^1.0.0",
     "serverless-offline": "^7.0.0",
-    "serverless-offline-localstack": "0.0.3",
-    "serverless-offline-aws-sqs-vini": "^5.1.2",
-    "serverless-webpack": "^5.5.0",
-    "webpack": "^5.38.1",
+    "serverless-offline-sqs-vini": "^5.1.2",
     "fs-extra": "^10.0.0",
     "ts-jest": "^26.4.3",
     "ts-node": "^9.0.0",
