@@ -23,7 +23,7 @@ provider:
           - sqs:*
         Resource: 
           Fn::GetAtt: [ AQueue, Arn ]
-
+    websocketsApiRouteSelectionExpression: "$request.body.route"
 layers:
   dependenciesNodeModules:
     path: dependencies-layer
@@ -44,20 +44,20 @@ layers:
     retain: false
 
 functions:
-    # lambdaA:
-    #   handler: dist/handlers/a.handler
-    #   events:
-    #       - http:
-    #           path: /
-    #           method: get
-    #           cors: true
+    lambdaA:
+      handler: dist/handlers/a.handler
+      events:
+          - http:
+              path: /a
+              method: get
+              cors: true
               
-    #   layers:
-    #     #offline aceita paenas arn
-    #     - arn:aws:lambda:us-west-2:859839146142:layer:dev-layer-dependencies:7
-    #     - arn:aws:lambda:us-west-2:859839146142:layer:dev-layer-utils:13
-    #     - { Ref: DependenciesNodeModulesLambdaLayer }
-    #     - { Ref: SqsLambdaLayer }
+      layers:
+        #offline aceita paenas arn
+        - arn:aws:lambda:us-west-2:859839146142:layer:dev-layer-dependencies:7
+        - arn:aws:lambda:us-west-2:859839146142:layer:dev-layer-utils:13
+        - { Ref: DependenciesNodeModulesLambdaLayer }
+        - { Ref: SqsLambdaLayer }
     
     lambdaB:
       handler: dist/handlers/b.handler
@@ -77,13 +77,42 @@ functions:
       handler: dist/handlers/c.handler
       events:
         - http:
-            path: /
+            path: /c
             method: get
             cors: true
 
       layers:
         - { Ref: DependenciesNodeModulesLambdaLayer }
         - { Ref: SqsLambdaLayer }
+    
+    #websocket
+    connect:
+      events:
+        - websocket:
+            route: $connect
+      handler: dist/handlers/d.handler
+
+    disconnect:
+      events:
+        - websocket:
+            route: $disconnect
+      handler: dist/handlers/d.handler
+
+    default:
+      events:
+        - websocket:
+            route: $default
+            # routeResponseSelectionExpression: $default
+      handler: dist/handlers/d.handler
+      layers:
+        - { Ref: DependenciesNodeModulesLambdaLayer }
+        - { Ref: SqsLambdaLayer }
+    
+    #schedule
+    schedule1:
+      events:
+        - schedule: rate(1 minute)
+      handler: dist/handlers/e.handler
 
 resources:
   Resources:
