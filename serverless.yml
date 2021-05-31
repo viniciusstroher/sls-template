@@ -15,7 +15,7 @@ provider:
     runtime: nodejs12.x
     region: us-west-2
     environment:
-      A_QUEUE_OFFLINE: http://sqs:9324/queue/${self:custom.aQueueName}
+      A_QUEUE_OFFLINE: http://sqs:9324/000000000000/${self:custom.aQueueName}
       A_QUEUE: { Ref: AQueue }
     iamRoleStatements:
       - Effect: Allow
@@ -59,16 +59,19 @@ functions:
     #     - { Ref: DependenciesNodeModulesLambdaLayer }
     #     - { Ref: SqsLambdaLayer }
     
-    # lambdaB:
-    #   handler: dist/handlers/b.handler
-    #   events:
-    #     - sqs: 
-    #         arn: #permissao para acessar a SQS
-    #           Fn::GetAtt:
-    #             - AQueue
-    #             - Arn
-    #   layers:
-    #     - { Ref: DependenciesNodeModulesLambdaLayer }
+    lambdaB:
+      handler: dist/handlers/b.handler
+      events:
+        - sqs:
+          # o problema dava porque o arn tinha 2 tabs (timeout refuse serverless-offline)
+          # arn: arn:aws:sqs:elasticmq:000000000000:dev-aqueue.fifo 
+            arn: #permissao para acessar a SQS
+              Fn::GetAtt:
+                - AQueue
+                - Arn
+            batchSize: 10
+      layers:
+        - { Ref: DependenciesNodeModulesLambdaLayer }
     
     lambdaC:
       handler: dist/handlers/c.handler
@@ -93,6 +96,12 @@ resources:
 
 custom:
   aQueueName: ${opt:stage, self:provider.stage, "dev"}-aqueue.fifo
+
+  serverless-offline:
+    host: 0.0.0.0
+    noAuth: true
+    noPrependStageInUrl: true
+  
   serverless-offline-sqs:
     autoCreate: true                 
     apiVersion: '2012-11-05'
@@ -101,11 +110,6 @@ custom:
     accessKeyId: root
     secretAccessKey: root
     skipCacheInvalidation: false
-  serverless-offline:
-    host: 0.0.0.0
-    noAuth: true
-    noPrependStageInUrl: true
-
 plugins:
     - serverless-offline-sqs
     - serverless-offline
