@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SQSAws = exports.AwsConfig = exports.AWSCredentials = void 0;
+exports.SQSAws = exports.uuidv4 = exports.AwsConfig = exports.AWSCredentials = void 0;
 const AWS = require('aws-sdk');
 const AWSCredentials = () => {
     if (process.env.IS_OFFLINE) {
@@ -32,6 +32,13 @@ const AWSCredentials = () => {
 exports.AWSCredentials = AWSCredentials;
 const AwsConfig = () => AWS.config;
 exports.AwsConfig = AwsConfig;
+const uuidv4 = () => {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
+};
+exports.uuidv4 = uuidv4;
 const SQSAws = () => __awaiter(void 0, void 0, void 0, function* () {
     return new Promise(function (resolve, reject) {
         return __awaiter(this, void 0, void 0, function* () {

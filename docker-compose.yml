@@ -6,8 +6,6 @@ services:
       ports:
         - "9324:9324"
         - "9325:9325"
-      # volumes:
-      #   - elasticmq.conf /etc/elasticmq/elasticmq.conf
   sls:
       container_name: sls
       build: .

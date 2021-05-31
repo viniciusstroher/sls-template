@@ -18,14 +18,14 @@
     "aws-lambda": "^1.0.6",
     "aws-sdk": "^2.437.0",
     "request-promise": "^4.2.6",
+    "serverless-offline-sqs-vini": "^5.1.2",
     "source-map-support": "^0.5.19"
   },
   "devDependencies": {
     "package-lock.json": "^1.0.0",
     "serverless-offline": "^7.0.0",
     "serverless-offline-localstack": "0.0.3",
-    "serverless-offline-sqs": "^4.1.1",
-    "serverless-offline-aws-sqs": "^1.0.3",
+    "serverless-offline-aws-sqs-vini": "^5.1.2",
     "serverless-webpack": "^5.5.0",
     "webpack": "^5.38.1",
     "fs-extra": "^10.0.0",

@@ -8,6 +8,9 @@ package:
     - 'tsconfig.json'
     - 'node_modules/**'
     - 'readme.md'
+    - 'dist/**'
+    - 'Dockerfile'
+    - 'docker-compose.yml'
 
 provider:
     name: aws
@@ -53,12 +56,11 @@ functions:
               cors: true
               
       layers:
-        #offline aceita paenas arn
-        - arn:aws:lambda:us-west-2:859839146142:layer:dev-layer-dependencies:7
-        - arn:aws:lambda:us-west-2:859839146142:layer:dev-layer-utils:13
         - { Ref: DependenciesNodeModulesLambdaLayer }
         - { Ref: SqsLambdaLayer }
-    
+      packge:
+        include:
+          - dist/handlers/a.handler.js
     lambdaB:
       handler: dist/handlers/b.handler
       events:
@@ -72,7 +74,9 @@ functions:
             batchSize: 10
       layers:
         - { Ref: DependenciesNodeModulesLambdaLayer }
-    
+      packge:
+        include:
+          - dist/handlers/b.handler.js
     lambdaC:
       handler: dist/handlers/c.handler
       events:
@@ -84,35 +88,49 @@ functions:
       layers:
         - { Ref: DependenciesNodeModulesLambdaLayer }
         - { Ref: SqsLambdaLayer }
-    
+      packge:
+        include:
+          - dist/handlers/c.handler.js
     #websocket
-    # connect:
-    #   events:
-    #     - websocket:
-    #         route: $connect
-    #   handler: dist/handlers/d.handler
+    connect:
+      events:
+        - websocket:
+            route: $connect
+      handler: dist/handlers/d.handler
+      packge:
+        include:
+          - dist/handlers/d.handler.js
 
-    # disconnect:
-    #   events:
-    #     - websocket:
-    #         route: $disconnect
-    #   handler: dist/handlers/d.handler
+    disconnect:
+      events:
+        - websocket:
+            route: $disconnect
+      handler: dist/handlers/d.handler
+      packge:
+        include:
+          - dist/handlers/d.handler.js
 
-    # default:
-    #   events:
-    #     - websocket:
-    #         route: $default
-    #         # routeResponseSelectionExpression: $default
-    #   handler: dist/handlers/d.handler
-    #   layers:
-    #     - { Ref: DependenciesNodeModulesLambdaLayer }
-    #     - { Ref: SqsLambdaLayer }
+    default:
+      events:
+        - websocket:
+            route: $default
+            # routeResponseSelectionExpression: $default
+      handler: dist/handlers/d.handler
+      layers:
+        - { Ref: DependenciesNodeModulesLambdaLayer }
+        - { Ref: SqsLambdaLayer }
+      packge:
+        include:
+          - dist/handlers/d.handler.js
     
     #schedule
     schedule1:
       events:
         - schedule: rate(1 minute)
       handler: dist/handlers/e.handler
+      packge:
+        include:
+          - dist/handlers/e.handler.js
 
 resources:
   Resources:
@@ -141,5 +159,5 @@ custom:
     skipCacheInvalidation: false
     readInterval: 500
 plugins:
-    - serverless-offline-sqs
+    - serverless-offline-sqs-vini
     - serverless-offline
