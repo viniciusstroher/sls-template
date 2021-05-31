@@ -43,3 +43,20 @@
     docker run -dit -v %cd%:/app -p 3000:3000 --name offline sls/offline
 ```
 
+É necessario um fix no pacote serverless-offlin-sqs
+    node_modules\serverless-offline-sqs\src\sqs.js
+    
+    //FIX
+    L:52
+    let {QueueUrl} = await this.client.getQueueUrl({QueueName: queueName}).promise();
+    QueueUrl = QueueUrl.replace("localhost","sqs")
+    return QueueUrl
+
+    L:70-72
+    let {QueueUrl} = await this.client.getQueueUrl({QueueName: queueName}).promise();
+    //fix
+    QueueUrl = QueueUrl.replace("localhost","sqs")
+
+    Ele gera a conenction como localhost:9324 e precisa ser sqs pois esta em um container
+    
+    https://github.com/CoorpAcademy/serverless-plugins/pull/114

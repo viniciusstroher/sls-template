@@ -1,5 +1,5 @@
 FROM node:12-slim
-RUN apt-get update && apt-get install -y inetutils*
+RUN DEBIAN_FRONTEND=noninteractive && apt-get update && apt-get install -y inetutils* && apt-get install -y netcat
 RUN npm install -g serverless
 WORKDIR /app
 VOLUME /app
