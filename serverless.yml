@@ -110,6 +110,7 @@ custom:
     accessKeyId: root
     secretAccessKey: root
     skipCacheInvalidation: false
+    readInterval: 500
 plugins:
     - serverless-offline-sqs
     - serverless-offline
