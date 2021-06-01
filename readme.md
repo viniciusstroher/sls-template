@@ -1,3 +1,10 @@
+## Ambiente Node
+## Para rodar o ambiente é necessario ter a versao de node 10.16.0 e docker
+```bash
+    nvm install 10.16.0
+    nvm use 10.16.0
+```
+---
 ## Creating aws profile
 ### Para poder criar os objetos na aws é necessario ter um profile de IAM valida
 ### para tal, é necessario rodar o seguinte comando:
@@ -22,11 +29,9 @@
 ### ex:
 ```bash
     npm run deploy -- -s dev --aws-profile teste
-
+    # * -s dev = stage dev
+    # * --aws-profile teste = pega o profile de aws configurado em ~/.aws/credentials contendo as regras do IAM
 ```
-
-* -s dev = stage dev
-* --aws-profile teste = pega o profile de aws configurado em ~/.aws/credentials contendo as regras do IAM
 
 ---
 

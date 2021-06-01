@@ -23,9 +23,12 @@ provider:
     iamRoleStatements:
       - Effect: Allow
         Action:
+          - iam:*
+          - s3:*
+          - lambda:*
           - sqs:*
-        Resource: 
-          Fn::GetAtt: [ AQueue, Arn ]
+        Resource: "*"
+          # Fn::GetAtt: [ AQueue, Arn ]
     websocketsApiRouteSelectionExpression: "$request.body.route"
 layers:
   dependenciesNodeModules:
@@ -48,7 +51,7 @@ layers:
 
 functions:
     lambdaA:
-      description: lambda - GET para gerar uma msg a fila eo lambdab consumir
+      # description: lambda - GET para gerar uma msg a fila eo lambdab consumir
       handler: dist/handlers/a.handler
       events:
           - http:
@@ -61,7 +64,7 @@ functions:
         - { Ref: SqsLambdaLayer }
     
     lambdaB:
-      description: lambdb - SQS Events - Escuta Aqueue
+      # description: lambdb - SQS Events - Escuta Aqueue
       handler: dist/handlers/b.handler
       events:
         - sqs:
