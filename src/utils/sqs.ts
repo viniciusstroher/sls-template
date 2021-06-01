@@ -4,6 +4,7 @@ export const AWSCredentials = () => {
     if(process.env.IS_OFFLINE){
         process.env.AWS_ACCESS_KEY_ID = 'root'
         process.env.AWS_SECRET_ACCESS_KEY = 'root'
+        process.env.AWS_SESSION_TOKEN = 'us-west-2'
     }
     
     const creadentials = {

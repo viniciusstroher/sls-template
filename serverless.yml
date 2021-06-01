@@ -131,6 +131,8 @@ custom:
 
   serverless-offline:
     host: 0.0.0.0
+    httpPort: 5000
+    websocketPort: 5001
     noAuth: true
     noPrependStageInUrl: true
   
