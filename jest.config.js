@@ -10,7 +10,9 @@ module.exports = {
       "enableTsDiagnostics": true
     }
   },
-  
+  testMatch: [
+    "**/?(*.)+(spec|test).[t]s?(x)"
+  ],
   rootDir: './',
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths , { prefix: '<rootDir>/' } )
 };
