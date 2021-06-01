@@ -1,14 +1,14 @@
 {
   "name": "sls-template",
   "version": "1.0.0",
-  "description": "serverless create --template saipos-nodejs-ts --path .",
+  "description": "Template para application na aws",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build-dependencies-layer": "node build/build-dependencies-layer.js",
     "build-utils-layer": "npm run build-tsc && node build/build-utils-layer.js",
     "build-tsc": "node node_modules/typescript/bin/tsc",
-    "deploy-dev": "npm run build-tsc && npm run build-dependencies-layer && npm run build-utils-layer && sls deploy -s dev --aws-profile teste",
+    "deploy": "npm run build-tsc && npm run build-dependencies-layer && npm run build-utils-layer && sls deploy",
     "offline": "npm i && docker-compose up -d && docker logs sls -t -f -n 100",
     "docker-local-sqs": "docker-compose up -d",
     "watch-src": "npm run build-tsc && sls offline start"
