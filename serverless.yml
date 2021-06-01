@@ -8,7 +8,6 @@ package:
     - 'tsconfig.json'
     - 'node_modules/**'
     - 'readme.md'
-    - 'dist/**'
     - 'Dockerfile'
     - 'docker-compose.yml'
 
@@ -58,11 +57,11 @@ functions:
               path: /a
               method: get
               cors: true
-              
+                
       layers:
         - { Ref: DependenciesNodeModulesLambdaLayer }
         - { Ref: SqsLambdaLayer }
-    
+      
     lambdaB:
       # description: lambdb - SQS Events - Escuta Aqueue
       handler: dist/handlers/b.handler
