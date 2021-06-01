@@ -4,7 +4,7 @@
   "description": "Template para application na aws",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node node_modules/jest/bin/jest.js",
     "build-dependencies-layer": "node build/build-dependencies-layer.js",
     "build-utils-layer": "npm run build-tsc && node build/build-utils-layer.js",
     "build-tsc": "node node_modules/typescript/bin/tsc",
@@ -15,7 +15,9 @@
   },
   "watch": {
     "watch-src": {
-      "patterns": ["src"],
+      "patterns": [
+        "src"
+      ],
       "extensions": "ts",
       "quiet": true,
       "legacyWatch": true,
@@ -32,12 +34,15 @@
     "source-map-support": "^0.5.19"
   },
   "devDependencies": {
+    "@types/jest": "^26.0.23",
+    "fs-extra": "^10.0.0",
+    "jest": "^26.4.2",
     "package-lock.json": "^1.0.0",
     "serverless-offline": "^7.0.0",
     "serverless-offline-sqs-vini": "^5.1.2",
-    "fs-extra": "^10.0.0",
     "ts-jest": "^26.4.3",
     "ts-node": "^9.0.0",
+    "tsconfig-paths": "^3.9.0",
     "typescript": "^4.0.5"
   }
 }

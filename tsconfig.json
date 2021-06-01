@@ -8,7 +8,6 @@
         "noImplicitAny": false,
         "module": "commonjs",
         "target": "ES6",
-        // "types": ["node"],
         "lib": ["es5", "es6", "dom"],
         "moduleResolution": "node",
         "forceConsistentCasingInFileNames": true,
@@ -21,11 +20,16 @@
         "esModuleInterop": true,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
-        "outDir": "./dist"
+        "outDir": "./dist",
+        "baseUrl": ".",
+        "paths": {
+            "@application/*": ["./src/*"],
+            "@tests/*": ["./tests/*"]
+        }
     },
     "include": [
         "**/*.ts"
     ],
-    "exclude": ["node_modules", "build", "webpack", "dist"],
+    "exclude": ["node_modules", "build", "webpack", "dist", "tests"],
     "types": ["typePatches"]
 }
