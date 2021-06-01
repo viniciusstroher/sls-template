@@ -1,5 +1,6 @@
+import {AwsConfig} from "@application/utils/sqs"
 describe('Aws Lambdas Test', () => {
-    test('should create instantiate Category entity', async () => {
-        expect(1).toBe(1);
+    test('should import', async () => {
+        expect(AwsConfig).toBeDefined();
     });
 });

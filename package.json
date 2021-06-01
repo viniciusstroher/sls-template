@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "node node_modules/jest/bin/jest.js",
+    "test-watch": "node node_modules/jest/bin/jest.js --watch",
     "build-dependencies-layer": "node build/build-dependencies-layer.js",
     "build-utils-layer": "npm run build-tsc && node build/build-utils-layer.js",
     "build-tsc": "node node_modules/typescript/bin/tsc",
