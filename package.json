@@ -14,7 +14,14 @@
     "watch-src": "sls offline start"
   },
   "watch": {
-    "watch-src": "{src}/*.ts"
+    "watch-src": {
+      "patterns": ["src"],
+      "extensions": "js",
+      "quiet": true,
+      "legacyWatch": true,
+      "delay": 2500,
+      "runOnChangeOnly": false
+    }
   },
   "author": "",
   "license": "ISC",
@@ -25,7 +32,6 @@
     "source-map-support": "^0.5.19"
   },
   "devDependencies": {
-    "chokidar": "^3.5.1",
     "package-lock.json": "^1.0.0",
     "serverless-offline": "^7.0.0",
     "serverless-offline-sqs-vini": "^5.1.2",
