@@ -9,14 +9,14 @@
     "build-utils-layer": "npm run build-tsc && node build/build-utils-layer.js",
     "build-tsc": "node node_modules/typescript/bin/tsc",
     "deploy-dev": "npm run build-tsc && npm run build-dependencies-layer && npm run build-utils-layer && sls deploy -s dev --aws-profile teste",
-    "offline": "npm run build-dependencies-layer && docker-compose up -d",
+    "offline": "npm run build-dependencies-layer && docker-compose up -d && npm run watch-src",
     "docker-local-sqs": "docker-compose up -d",
     "watch-src": "sls offline start"
   },
   "watch": {
     "watch-src": {
       "patterns": ["src"],
-      "extensions": "js",
+      "extensions": "ts",
       "quiet": true,
       "legacyWatch": true,
       "delay": 2500,
