@@ -58,9 +58,6 @@ functions:
       layers:
         - { Ref: DependenciesNodeModulesLambdaLayer }
         - { Ref: SqsLambdaLayer }
-      package:
-        include:
-          - dist/handlers/a.handler.js
     
     lambdaB:
       handler: dist/handlers/b.handler
@@ -75,9 +72,7 @@ functions:
             batchSize: 10
       layers:
         - { Ref: DependenciesNodeModulesLambdaLayer }
-      package:
-        include:
-          - dist/handlers/b.handler.js
+
     lambdaC:
       handler: dist/handlers/c.handler
       events:
@@ -89,27 +84,19 @@ functions:
       layers:
         - { Ref: DependenciesNodeModulesLambdaLayer }
         - { Ref: SqsLambdaLayer }
-      package:
-        include:
-          - dist/handlers/c.handler.js
+
     #websocket
     connect:
       events:
         - websocket:
             route: $connect
       handler: dist/handlers/d.handler
-      package:
-        include:
-          - dist/handlers/d.handler.js
 
     disconnect:
       events:
         - websocket:
             route: $disconnect
       handler: dist/handlers/d.handler
-      package:
-        include:
-          - dist/handlers/d.handler.js
 
     default:
       events:
@@ -120,9 +107,6 @@ functions:
       layers:
         - { Ref: DependenciesNodeModulesLambdaLayer }
         - { Ref: SqsLambdaLayer }
-      package:
-        include:
-          - dist/handlers/d.handler.js
     
     #schedule - comentado porque eu n sei quando vai da no meu cartao de credito hahahahah, assinado: vini
     # schedule1:

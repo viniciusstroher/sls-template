@@ -21,4 +21,4 @@ services:
       environment:
         - SLS_DEBUG=*
         - NODE_ENV=test
-      command: bash -c "tail -f /dev/null"
+      command: bash -c "npm-watch"
