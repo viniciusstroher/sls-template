@@ -19,6 +19,7 @@ provider:
     environment:
       A_QUEUE_OFFLINE: http://sqs:9324/000000000000/${self:custom.aQueueName}
       A_QUEUE: { Ref: AQueue }
+      JWT_SECRET: 12345
     iamRoleStatements:
       - Effect: Allow
         Action:
@@ -49,6 +50,9 @@ layers:
     retain: false
 
 functions:
+    verify-token:
+        handler: dist/handlers/auth.handler
+
     lambdaA:
       # description: lambda - GET para gerar uma msg a fila eo lambdab consumir
       handler: dist/handlers/a.handler
@@ -84,7 +88,7 @@ functions:
             path: /c
             method: get
             cors: true
-
+            authorizer: verify-token
       layers:
         - { Ref: DependenciesNodeModulesLambdaLayer }
         - { Ref: SqsLambdaLayer }
@@ -137,7 +141,7 @@ custom:
     host: 0.0.0.0
     httpPort: 5000
     websocketPort: 5001
-    noAuth: true
+    # noAuth: true
     noPrependStageInUrl: true
   
   serverless-offline-sqs:
