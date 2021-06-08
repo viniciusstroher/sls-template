@@ -11,7 +11,7 @@ package:
     - 'Dockerfile'
     - 'docker-compose.yml'
     - 'dist/**'
-    - 'test/**'
+    - 'tests'/**'
     - 'eslintrc.json'
     - 'jest.config.js'
     - 'package-lock.json'
@@ -35,6 +35,11 @@ provider:
         Resource: "*"
           # Fn::GetAtt: [ AQueue, Arn ]
     websocketsApiRouteSelectionExpression: "$request.body.route"
+    tracing:
+      apiGateway: true
+      lambda: true
+      sqs: true
+
 layers:
   dependenciesNodeModules:
     path: dependencies-layer
