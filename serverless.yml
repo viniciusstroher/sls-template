@@ -10,6 +10,11 @@ package:
     - 'readme.md'
     - 'Dockerfile'
     - 'docker-compose.yml'
+    - 'dist/**'
+    - 'test/**'
+    - 'eslintrc.json'
+    - 'jest.config.js'
+    - 'package-lock.json'
 
 provider:
     name: aws
@@ -52,10 +57,16 @@ layers:
 functions:
     verify-token:
         handler: dist/handlers/auth.handler
+        package:
+          include:
+            - dist/handlers/auth.js
 
     lambdaA:
       # description: lambda - GET para gerar uma msg a fila eo lambdab consumir
       handler: dist/handlers/a.handler
+      package:
+        include:
+          - dist/handlers/a.js
       events:
           - http:
               path: /a
@@ -69,6 +80,9 @@ functions:
     lambdaB:
       # description: lambdb - SQS Events - Escuta Aqueue
       handler: dist/handlers/b.handler
+      package:
+        include:
+          - dist/handlers/b.js
       events:
         - sqs:
           # o problema dava porque o arn tinha 2 tabs (timeout refuse serverless-offline)
@@ -83,6 +97,9 @@ functions:
 
     lambdaC:
       handler: dist/handlers/c.handler
+      package:
+        include:
+          - dist/handlers/c.js
       events:
         - http:
             path: /c
@@ -94,27 +111,27 @@ functions:
         - { Ref: SqsLambdaLayer }
 
     #websocket
-    connect:
-      events:
-        - websocket:
-            route: $connect
-      handler: dist/handlers/d.handler
+    # connect:
+    #   events:
+    #     - websocket:
+    #         route: $connect
+    #   handler: dist/handlers/d.handler
 
-    disconnect:
-      events:
-        - websocket:
-            route: $disconnect
-      handler: dist/handlers/d.handler
+    # disconnect:
+    #   events:
+    #     - websocket:
+    #         route: $disconnect
+    #   handler: dist/handlers/d.handler
 
-    default:
-      events:
-        - websocket:
-            route: $default
-            # routeResponseSelectionExpression: $default
-      handler: dist/handlers/d.handler
-      layers:
-        - { Ref: DependenciesNodeModulesLambdaLayer }
-        - { Ref: SqsLambdaLayer }
+    # default:
+    #   events:
+    #     - websocket:
+    #         route: $default
+    #         # routeResponseSelectionExpression: $default
+    #   handler: dist/handlers/d.handler
+    #   layers:
+    #     - { Ref: DependenciesNodeModulesLambdaLayer }
+    #     - { Ref: SqsLambdaLayer }
     
     #schedule - comentado porque eu n sei quando vai da no meu cartao de credito hahahahah, assinado: vini
     # schedule1:
@@ -135,6 +152,7 @@ resources:
         ContentBasedDeduplication: true
 
 custom:
+  logRetentionInDays: 30
   aQueueName: ${opt:stage, self:provider.stage, "dev"}-aqueue.fifo
 
   serverless-offline:
@@ -154,5 +172,6 @@ custom:
     skipCacheInvalidation: false
     readInterval: 500
 plugins:
+    - serverless-plugin-log-retention
     - serverless-offline-sqs-vini
     - serverless-offline
