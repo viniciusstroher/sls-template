@@ -19,4 +19,5 @@ services:
       environment:
         - SLS_DEBUG=*
         - NODE_ENV=test
+        - NODE_PATH=./dist/utils/:./
       command: bash -c "npm-watch"

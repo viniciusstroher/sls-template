@@ -6,7 +6,7 @@ import {
 
 import {
     SQSAws, uuidv4
-} from '../utils/sqs';
+} from 'sqs';
 
 export const handler = async (
     event: APIGatewayProxyEvent,

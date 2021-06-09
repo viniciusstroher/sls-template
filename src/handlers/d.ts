@@ -2,7 +2,7 @@ const AWS = require('aws-sdk');
 
 import {
   SQSAws, AWSCredentials
-} from '../utils/sqs';
+} from 'sqs';
 
 exports.handler = async (event, context) => {
   const {

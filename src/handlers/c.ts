@@ -6,7 +6,7 @@ import {
 
 import {
     AWSCredentials, AwsConfig, SQSAws, uuidv4
-} from '../utils/sqs';
+} from 'sqs';
 
 
   

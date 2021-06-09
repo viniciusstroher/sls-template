@@ -11,7 +11,7 @@ package:
     - 'Dockerfile'
     - 'docker-compose.yml'
     - 'dist/**'
-    - 'tests'/**'
+    - 'tests/**'
     - 'eslintrc.json'
     - 'jest.config.js'
     - 'package-lock.json'
@@ -35,10 +35,11 @@ provider:
         Resource: "*"
           # Fn::GetAtt: [ AQueue, Arn ]
     websocketsApiRouteSelectionExpression: "$request.body.route"
+    #IMPORTANT: Due to CloudFormation limitations it's not possible to enable 
+    #AWS X-Ray Tracing on existing deployments which don’t use tracing right now.
     tracing:
       apiGateway: true
       lambda: true
-      sqs: true
 
 layers:
   dependenciesNodeModules:
@@ -53,7 +54,7 @@ layers:
   sqs:
     path: utils-layer
     name: ${opt:stage, self:provider.stage, "dev"}-layer-utils
-    description: Sqs functions # optional, Description to publish to AWS
+    description: Utils layer # optional, Description to publish to AWS
     compatibleRuntimes: # optional, a list of runtimes this layer is compatible with
       - nodejs12.x
     licenseInfo: GPLv3
@@ -61,13 +62,14 @@ layers:
 
 functions:
     verify-token:
-        handler: dist/handlers/auth.handler
-        package:
-          include:
-            - dist/handlers/auth.js
+      description: Funcao para autenticacao
+      handler: dist/handlers/auth.handler
+      package:
+        include:
+          - dist/handlers/auth.js
 
     lambdaA:
-      # description: lambda - GET para gerar uma msg a fila eo lambdab consumir
+      description: lambda - GET para gerar uma msg a fila eo lambdab consumir
       handler: dist/handlers/a.handler
       package:
         include:
